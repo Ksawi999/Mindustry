@@ -1695,6 +1695,36 @@ public class Blocks implements ContentList{
                     ammoMultiplier = 5f;
                     toColor = Pal.thoriumPink;
                     shootEffect = smokeEffect = Fx.thoriumShoot;
+                }},
+                Items.plastanium, new ShrapnelBulletType(){{
+                    length = brange;
+                    damage = 52f;
+                    ammoMultiplier = 6f;
+                    splashDamageRadius = 20f;
+                    splashDamage = 23f;
+                    width = 25f;
+                    reloadMultiplier = 1.2f;
+                    toColor = Pal.plastaniumFront;
+                }},
+                Items.scrap, new ShrapnelBulletType(){{
+                    length = brange;
+                    damage = 58f;
+                    width = 40f;
+                    reloadMultiplier = 0.8f;
+                    ammoMultiplier = 2f;
+                    toColor = Pal.darkMetal;
+                }},
+                Items.blastCompound, new ShrapnelBulletType(){{
+                    length = brange;
+                    damage = 110f;
+                    ammoMultiplier = 4f;
+                    splashDamageRadius = 40f;
+                    splashDamage = 32f;
+                    width = 15f;
+                    reloadMultiplier = 0.6f;
+                    toColor = Pal.redDust;
+                    status = StatusEffects.blasted;
+                    statusDuration = 30f;
                 }}
             );
         }};
