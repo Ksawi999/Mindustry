@@ -36,7 +36,7 @@ public class NuclearReactor extends PowerGenerator{
     public float boostScale = 1f;
     public float maxBoost = 1f;
     /** ticks to consume 1 fuel */
-    public float itemDuration = 120 * efficiency();
+    public float itemDuration = 120;
     /** heating per frame * fullness */
     public float heating = 0.01f;
     /** threshold at which block starts smoking */
@@ -82,7 +82,7 @@ public class NuclearReactor extends PowerGenerator{
     public void setBars(){
         super.setBars();
         bars.add("heat", (NuclearReactorBuild entity) -> new Bar("bar.heat", Pal.lightOrange, () -> entity.heat));
-        bars.add("efficiency", (NuclearReactorBuild entity) -> new Bar("bar.efficiency", Pal.lightOrange, () -> entity.efficiency));
+        bars.add("efficiency", (NuclearReactorBuild entity) -> new Bar("bar.efficiency", Pal.lightOrange, () -> entity.attrsum));
     }
 
     public class NuclearReactorBuild extends GeneratorBuild{
@@ -113,7 +113,7 @@ public class NuclearReactor extends PowerGenerator{
             if(fuel > 0 && enabled){
                 heat += fullness * heating * Math.min(delta(), 4f) * efficiency();
 
-                if(timer(timerFuel, itemDuration / timeScale)){
+                if(timer(timerFuel, (itemDuration + 20f - efficiency() * 20f) / timeScale)){
                     consume();
                 }
             }else{
@@ -124,8 +124,8 @@ public class NuclearReactor extends PowerGenerator{
 
             if(heat > 0){
                 float maxUsed = Math.min(liquids.get(liquid), heat / coolantPower);
-                heat -= maxUsed * coolantPower + 1f - efficiency();
-                liquids.remove(liquid, maxUsed);
+                liquids.remove(liquid, maxUsed * (heat * 0.5f + 0.5f) * 0.4f);
+                heat -= maxUsed * coolantPower * (heat * 0.5f + 0.5f) * 0.4f + (1.01f - efficiency()) * 0.01f;
             }
 
             if(heat > smokeThreshold){
