@@ -194,6 +194,7 @@ public class Blocks implements ContentList{
             isLiquid = true;
             cacheLayer = CacheLayer.slag;
             attributes.set(Attribute.heat, 0.85f);
+            attributes.set(Attribute.surfaceHeat, 1.0f);
 
             emitLight = true;
             lightRadius = 40f;
@@ -224,6 +225,7 @@ public class Blocks implements ContentList{
 
         hotrock = new Floor("hotrock"){{
             attributes.set(Attribute.heat, 0.5f);
+            attributes.set(Attribute.surfaceHeat, 0.5f);
             attributes.set(Attribute.water, -0.5f);
             blendGroup = basalt;
 
@@ -234,6 +236,7 @@ public class Blocks implements ContentList{
 
         magmarock = new Floor("magmarock"){{
             attributes.set(Attribute.heat, 0.75f);
+            attributes.set(Attribute.surfaceHeat, 0.75f);
             attributes.set(Attribute.water, -0.75f);
             updateEffect = Fx.magmasmoke;
             blendGroup = basalt;
@@ -262,6 +265,7 @@ public class Blocks implements ContentList{
             variants = 3;
             status = StatusEffects.muddy;
             statusDuration = 30f;
+            attributes.set(Attribute.surfaceHeat, -0.1f);
             attributes.set(Attribute.water, 1f);
             cacheLayer = CacheLayer.mud;
             albedo = 0.35f;
@@ -278,6 +282,7 @@ public class Blocks implements ContentList{
         dacite = new Floor("dacite");
 
         grass = new Floor("grass"){{
+            attributes.set(Attribute.surfaceHeat, -0.05f);
             attributes.set(Attribute.water, 0.1f);
         }};
 
@@ -288,18 +293,21 @@ public class Blocks implements ContentList{
         }};
 
         snow = new Floor("snow"){{
+            attributes.set(Attribute.surfaceHeat, -0.2f);
             attributes.set(Attribute.water, 0.2f);
         }};
 
         ice = new Floor("ice"){{
             dragMultiplier = 0.35f;
             speedMultiplier = 0.9f;
+            attributes.set(Attribute.surfaceHeat, -0.4f);
             attributes.set(Attribute.water, 0.4f);
         }};
 
         iceSnow = new Floor("ice-snow"){{
             dragMultiplier = 0.6f;
             variants = 3;
+            attributes.set(Attribute.surfaceHeat, -0.3f);
             attributes.set(Attribute.water, 0.3f);
         }};
 
