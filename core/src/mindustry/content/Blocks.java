@@ -1725,6 +1725,26 @@ public class Blocks implements ContentList{
                     toColor = Pal.redDust;
                     status = StatusEffects.blasted;
                     statusDuration = 30f;
+                }},
+                Items.spore, new ShrapnelBulletType(){{
+                    length = brange;
+                    damage = 49f;
+                    ammoMultiplier = 3f;
+                    splashDamageRadius = 25f;
+                    splashDamage = 32f;
+                    width = 40f;
+                    reloadMultiplier = 1.5f;
+                    toColor = Pal.spore;
+                    status = StatusEffects.sporeSlowed;
+                    statusDuration = 60f;
+                }},
+                Items.lead, new ShrapnelBulletType(){{
+                    length = brange;
+                    damage = 37f;
+                    ammoMultiplier = 3f;
+                    width = 30f;
+                    reloadMultiplier = 1.8f;
+                    toColor = Pal.ammo;
                 }}
             );
         }};
