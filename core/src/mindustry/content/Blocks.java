@@ -238,7 +238,6 @@ public class Blocks implements ContentList{
             attributes.set(Attribute.heat, 0.75f);
             attributes.set(Attribute.surfaceHeat, 0.75f);
             attributes.set(Attribute.water, -0.75f);
-            updateEffect = Fx.magmasmoke;
             blendGroup = basalt;
 
             emitLight = true;
