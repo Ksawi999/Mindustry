@@ -30,9 +30,13 @@ public class NuclearReactor extends PowerGenerator{
     public Color lightColor = Color.valueOf("7f19ea");
     public Color coolColor = new Color(1, 1, 1, 0f);
     public Color hotColor = Color.valueOf("ff9575a3");
-    public Effect explodeEffect = Fx.reactorExplosion;
+    public Effect explodeEffect = Fx.reactorExplosion; 
+    public Attribute attribute = Attribute.surfaceHeat;
+    public float baseEfficiency = 1f;
+    public float boostScale = 1f;
+    public float maxBoost = 1f;
     /** ticks to consume 1 fuel */
-    public float itemDuration = 120;
+    public float itemDuration = 120 * efficiency();
     /** heating per frame * fullness */
     public float heating = 0.01f;
     /** threshold at which block starts smoking */
@@ -59,9 +63,16 @@ public class NuclearReactor extends PowerGenerator{
     }
 
     @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+        drawPlaceText(Core.bundle.format("bar.efficiency",
+        (int)((baseEfficiency + Math.min(maxBoost, boostScale * sumAttribute(attribute, x, y))) * 100f)), x, y, valid);
+    }
+
+    @Override
     public void setStats(){
         super.setStats();
 
+        stats.add(Stat.affinities, attribute, boostScale);
         if(hasItems){
             stats.add(Stat.productionTime, itemDuration / 60f, StatUnit.seconds);
         }
@@ -71,10 +82,24 @@ public class NuclearReactor extends PowerGenerator{
     public void setBars(){
         super.setBars();
         bars.add("heat", (NuclearReactorBuild entity) -> new Bar("bar.heat", Pal.lightOrange, () -> entity.heat));
+        bars.add("efficiency", (NuclearReactorBuild entity) -> new Bar("bar.efficiency", Pal.lightOrange, () -> entity.efficiency));
     }
 
     public class NuclearReactorBuild extends GeneratorBuild{
         public float heat;
+        public float attrsum;
+
+        @Override
+        public float efficiency(){
+            return (baseEfficiency + Math.min(maxBoost, boostScale * attrsum) + attribute.env()) * super.efficiency();
+        }
+
+        @Override
+        public void onProximityUpdate(){
+            super.onProximityUpdate();
+
+            attrsum = sumAttribute(attribute, tile.x, tile.y);
+        }
 
         @Override
         public void updateTile(){
@@ -86,7 +111,7 @@ public class NuclearReactor extends PowerGenerator{
             productionEfficiency = fullness;
 
             if(fuel > 0 && enabled){
-                heat += fullness * heating * Math.min(delta(), 4f);
+                heat += fullness * heating * Math.min(delta(), 4f) * efficiency();
 
                 if(timer(timerFuel, itemDuration / timeScale)){
                     consume();
@@ -99,7 +124,7 @@ public class NuclearReactor extends PowerGenerator{
 
             if(heat > 0){
                 float maxUsed = Math.min(liquids.get(liquid), heat / coolantPower);
-                heat -= maxUsed * coolantPower;
+                heat -= maxUsed * coolantPower + 1f - efficiency();
                 liquids.remove(liquid, maxUsed);
             }
 
