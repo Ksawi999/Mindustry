@@ -10,8 +10,6 @@ public class Attribute{
     public static final Attribute
     /** Heat content. Used for thermal generator yield. */
     heat = add("heat"),
-    /** Surface heat content. Used for thorium reactor efficiency. */
-    surfaceHeat = add("surfaceHeat"),
     /** Spore content. Used for cultivator yield. */
     spores = add("spores"),
     /** Water content. Used for water extractor yield. */
