@@ -31,7 +31,7 @@ public class NuclearReactor extends PowerGenerator{
     public Color coolColor = new Color(1, 1, 1, 0f);
     public Color hotColor = Color.valueOf("ff9575a3");
     public Effect explodeEffect = Fx.reactorExplosion; 
-    public Attribute attribute = Attribute.surfaceHeat;
+    public Attribute attribute = Attribute.heat;
     public float baseEfficiency = 1f;
     public float boostScale = 1f;
     public float maxBoost = 1f;
@@ -107,7 +107,7 @@ public class NuclearReactor extends PowerGenerator{
 
             int fuel = items.get(item);
             float fullness = (float)fuel / itemCapacity;
-            productionEfficiency = fullness;
+            productionEfficiency = fullness * efficiency();
 
             if(fuel > 0 && enabled){
                 heat += fullness * heating * Math.min(delta(), 4f) * efficiency();
