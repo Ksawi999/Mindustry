@@ -65,7 +65,7 @@ public class NuclearReactor extends PowerGenerator{
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){
         drawPlaceText(Core.bundle.format("bar.efficiency",
-        (int)((baseEfficiency + Math.min(maxBoost, boostScale * sumAttribute(attribute, x, y))) * 100f)), x, y, valid);
+        (int)((baseEfficiency + Math.min(maxBoost, boostScale * sumAttribute(attribute, x, y) / 3 / 3)) * 100f)), x, y, valid);
     }
 
     @Override
@@ -82,7 +82,6 @@ public class NuclearReactor extends PowerGenerator{
     public void setBars(){
         super.setBars();
         bars.add("heat", (NuclearReactorBuild entity) -> new Bar("bar.heat", Pal.lightOrange, () -> entity.heat));
-        bars.add("efficiency", (NuclearReactorBuild entity) -> new Bar("bar.efficiency", Pal.lightOrange, () -> entity.attrsum));
     }
 
     public class NuclearReactorBuild extends GeneratorBuild{
@@ -98,7 +97,7 @@ public class NuclearReactor extends PowerGenerator{
         public void onProximityUpdate(){
             super.onProximityUpdate();
 
-            attrsum = sumAttribute(attribute, tile.x, tile.y);
+            attrsum = sumAttribute(attribute, tile.x, tile.y) / 3 / 3;
         }
 
         @Override
@@ -124,8 +123,8 @@ public class NuclearReactor extends PowerGenerator{
 
             if(heat > 0){
                 float maxUsed = Math.min(liquids.get(liquid), heat / coolantPower);
-                liquids.remove(liquid, maxUsed * (heat * 0.5f + 0.5f) * 0.4f);
-                heat -= maxUsed * coolantPower * (heat * 0.5f + 0.5f) * 0.4f + (1.01f - efficiency()) * 0.01f;
+				liquids.remove(liquid, maxUsed * (heat * 0.5f + 0.5f) * 0.4f);
+                heat -= (maxUsed * coolantPower * 0.4f + (0.05f - efficiency()) * 0.01f) * (heat * 0.5f + 0.5f);
             }
 
             if(heat > smokeThreshold){
