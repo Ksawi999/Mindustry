@@ -123,7 +123,7 @@ public class NuclearReactor extends PowerGenerator{
 
             if(heat > 0){
                 float maxUsed = Math.min(liquids.get(liquid), heat / coolantPower);
-				liquids.remove(liquid, maxUsed * (heat * 0.5f + 0.5f) * 0.4f);
+                liquids.remove(liquid, maxUsed * (heat * 0.5f + 0.5f) * 0.4f);
                 heat -= (maxUsed * coolantPower * 0.4f + (1.1f - attrsum) * 0.001f) * (heat * 0.5f + 0.5f);
             }
 
