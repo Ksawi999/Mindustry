@@ -33,7 +33,7 @@ public class NuclearReactor extends PowerGenerator{
     public Effect explodeEffect = Fx.reactorExplosion; 
     public Attribute attribute = Attribute.heat;
     public float baseEfficiency = 1f;
-    public float boostScale = 1f;
+    public float boostScale = 0.5f;
     public float maxBoost = 1f;
     /** ticks to consume 1 fuel */
     public float itemDuration = 120;
@@ -65,7 +65,7 @@ public class NuclearReactor extends PowerGenerator{
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){
         drawPlaceText(Core.bundle.format("bar.efficiency",
-        (int)((baseEfficiency + Math.min(maxBoost, boostScale * sumAttribute(attribute, x, y) / 3 / 3)) * 100f)), x, y, valid);
+        (int)((baseEfficiency + Math.min(maxBoost, boostScale * sumAttribute(attribute, x, y) / 9)) * 100f)), x, y, valid);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class NuclearReactor extends PowerGenerator{
         public void onProximityUpdate(){
             super.onProximityUpdate();
 
-            attrsum = sumAttribute(attribute, tile.x, tile.y) / 3 / 3;
+            attrsum = sumAttribute(attribute, tile.x, tile.y) / 9;
         }
 
         @Override
@@ -112,7 +112,7 @@ public class NuclearReactor extends PowerGenerator{
             if(fuel > 0 && enabled){
                 heat += fullness * heating * Math.min(delta(), 4f) * efficiency();
 
-                if(timer(timerFuel, (itemDuration + 20f - efficiency() * 20f) / timeScale)){
+                if(timer(timerFuel, (itemDuration + 60f - efficiency() * 60f) / timeScale)){
                     consume();
                 }
             }else{
@@ -124,7 +124,7 @@ public class NuclearReactor extends PowerGenerator{
             if(heat > 0){
                 float maxUsed = Math.min(liquids.get(liquid), heat / coolantPower);
 				liquids.remove(liquid, maxUsed * (heat * 0.5f + 0.5f) * 0.4f);
-                heat -= (maxUsed * coolantPower * 0.4f + (0.05f - efficiency()) * 0.01f) * (heat * 0.5f + 0.5f);
+                heat -= (maxUsed * coolantPower * 0.4f + (1.1f - attrsum) * 0.001f) * (heat * 0.5f + 0.5f);
             }
 
             if(heat > smokeThreshold){
@@ -206,3 +206,4 @@ public class NuclearReactor extends PowerGenerator{
         }
     }
 }
+
