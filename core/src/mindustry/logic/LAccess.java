@@ -51,7 +51,8 @@ public enum LAccess{
     shoot("x", "y", "shoot"),
     shootp(true, "unit", "shoot"),
     config(true, "to"),
-    color("r", "g", "b");
+    color("r", "g", "b"),
+    rotate("to");
 
     public final String[] params;
     public final boolean isObj;
