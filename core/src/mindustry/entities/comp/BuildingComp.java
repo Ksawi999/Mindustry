@@ -1428,6 +1428,12 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
             enabled = !Mathf.zero((float)p1);
             enabledControlTime = timeToUncontrol;
         }
+        if(type == LAccess.rotation && block.quickRotate && world.build(tile.x, tile.y).rotation != (int)p1 % 4){
+            rotation = (int)p1 % 4;
+			Building build = world.build(tile.x, tile.y);
+			tile.setBlock(build.block, build.team, rotation, () -> build);
+			Fx.rotateBlock.at(tile.build.x, tile.build.y, tile.build.block.size);
+        }
     }
 
     @Override

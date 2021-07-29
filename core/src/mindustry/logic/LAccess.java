@@ -23,7 +23,6 @@ public enum LAccess{
     efficiency,
     progress,
     timescale,
-    rotation,
     x,
     y,
     shootX,
@@ -51,7 +50,8 @@ public enum LAccess{
     shoot("x", "y", "shoot"),
     shootp(true, "unit", "shoot"),
     config(true, "to"),
-    color("r", "g", "b");
+    color("r", "g", "b"),
+    rotation("to");
 
     public final String[] params;
     public final boolean isObj;
