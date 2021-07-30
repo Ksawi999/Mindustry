@@ -1430,9 +1430,10 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
         }
         if(type == LAccess.rotation && block.quickRotate && world.build(tile.x, tile.y).rotation != (int)p1 % 4){
             rotation = (int)p1 % 4;
-			Building build = world.build(tile.x, tile.y);
-			tile.setBlock(build.block, build.team, rotation, () -> build);
-			Fx.rotateBlock.at(tile.build.x, tile.build.y, tile.build.block.size);
+            Building build = world.build(tile.x, tile.y);
+            tile.setBlock(build.block, build.team, rotation, () -> build);
+            Fx.rotateBlock.at(tile.build.x, tile.build.y, tile.build.block.size);
+            rotationDelay = timeToSleep / 2;
         }
     }
 
@@ -1479,6 +1480,11 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
             if(enabledControlTime <= 0){
                 enabled = true;
             }
+        }
+        
+        if(rotationDelay >= 0){
+            noSleep();
+            rotationDelay -= Time.delta;
         }
 
         if(team == Team.derelict || !block.supportsEnv(state.rules.environment)){
